@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VORTEX — Enter the Arena</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Bebas+Neue&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --r:#FF2D2D;--r2:#FF6B6B;--c:#00FFD1;--c2:#00B89C;
+  --y:#FFD600;--b:#0A0A0F;--b2:#0F0F1A;--b3:#13131F;
+  --g:#1A1A2E;--w:#FFFFFF;--muted:#7A7A9A;
+  --border:rgba(255,45,45,0.25);--cborder:rgba(0,255,209,0.2);
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--b);color:var(--w);font-family:'Rajdhani',sans-serif;overflow-x:hidden;cursor:none;}
+#cursor{position:fixed;width:12px;height:12px;background:var(--r);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,background .2s;mix-blend-mode:difference;}
+#cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(255,45,45,0.6);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .18s ease,width .2s,height .2s;}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3rem;background:linear-gradient(to bottom,rgba(10,10,15,0.97),transparent);border-bottom:1px solid rgba(255,45,45,0.08);}
+.logo{font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:900;color:var(--w);letter-spacing:.15em;display:flex;align-items:center;gap:.5rem;}
+.logo-accent{color:var(--r);}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{font-family:'Rajdhani',sans-serif;font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--c);}
+.nav-right{display:flex;align-items:center;gap:1.2rem;}
+.btn-nav{font-family:'Orbitron',monospace;font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--b);background:var(--r);border:none;padding:.6rem 1.6rem;cursor:pointer;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);transition:background .2s,transform .15s;}
+.btn-nav:hover{background:#FF5555;transform:scale(1.04);}
+
+/* ─── HERO ─── */
+.hero{position:relative;min-height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse 120% 100% at 50% 0%,#1A0A0A 0%,var(--b) 60%);}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,45,45,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,45,45,.06) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 90% 80% at 50% 50%,black 30%,transparent 80%);}
+.scanlines{position:absolute;inset:0;pointer-events:none;z-index:2;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.08) 2px,rgba(0,0,0,.08) 4px);}
+.slash-bg{position:absolute;top:0;right:0;width:55%;height:100%;background:linear-gradient(160deg,transparent 30%,rgba(255,45,45,.03) 50%,transparent 70%);clip-path:polygon(15% 0%,100% 0%,100% 100%,0% 100%);}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+.orb1{width:600px;height:600px;background:rgba(255,45,45,.12);top:-200px;left:-200px;}
+.orb2{width:500px;height:400px;background:rgba(0,255,209,.07);bottom:-100px;right:-100px;}
+.orb3{width:300px;height:300px;background:rgba(255,214,0,.05);top:40%;left:60%;}
+.hero-content{position:relative;z-index:10;display:grid;grid-template-columns:1fr 1fr;align-items:center;max-width:1300px;margin:0 auto;padding:0 3rem;gap:3rem;width:100%;}
+.hero-left{position:relative;}
+.hero-tag{display:inline-flex;align-items:center;gap:.6rem;font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--r);border:1px solid rgba(255,45,45,.3);padding:.4rem 1rem;margin-bottom:1.5rem;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);background:rgba(255,45,45,.06);}
+.tag-dot{width:5px;height:5px;background:var(--r);border-radius:50%;animation:pulse 1.5s infinite;}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(4.5rem,10vw,8.5rem);line-height:.92;letter-spacing:.03em;}
+.title-line1{display:block;color:var(--w);}
+.title-line2{display:block;-webkit-text-stroke:2px var(--r);color:transparent;filter:drop-shadow(0 0 20px rgba(255,45,45,.4));}
+.title-line3{display:block;color:var(--c);filter:drop-shadow(0 0 15px rgba(0,255,209,.3));}
+.hero-sub{font-size:1rem;line-height:1.7;color:var(--muted);margin:1.5rem 0 2.5rem;max-width:420px;font-weight:400;}
+.hero-sub strong{color:var(--w);font-weight:600;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn-primary{font-family:'Orbitron',monospace;font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--b);background:var(--r);border:none;padding:.9rem 2.4rem;cursor:pointer;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:all .2s;position:relative;overflow:hidden;}
+.btn-primary::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transform:translateX(-100%);transition:transform .4s;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,45,45,.4);}
+.btn-primary:hover::after{transform:translateX(100%);}
+.btn-ghost{font-family:'Orbitron',monospace;font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--c);background:transparent;border:1px solid rgba(0,255,209,.3);padding:.9rem 2.4rem;cursor:pointer;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:all .2s;}
+.btn-ghost:hover{background:rgba(0,255,209,.08);border-color:var(--c);}
+.hero-stats{display:flex;gap:2.5rem;margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.08);}
+.stat{display:flex;flex-direction:column;gap:.3rem;}
+.stat-num{font-family:'Orbitron',monospace;font-size:1.6rem;font-weight:900;color:var(--w);}
+.stat-label{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+
+/* ─── HERO STAGE (character area) ─── */
+.hero-right{position:relative;height:640px;display:flex;align-items:center;justify-content:center;}
+.char-stage{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+.energy-ring{position:absolute;border-radius:50%;border:1px solid transparent;animation:ringExpand 2.5s infinite;pointer-events:none;top:50%;left:50%;}
+.energy-ring:nth-child(1){width:300px;height:300px;transform:translate(-50%,-50%);border-color:rgba(255,45,45,.35);animation-delay:0s;}
+.energy-ring:nth-child(2){width:400px;height:400px;transform:translate(-50%,-50%);border-color:rgba(0,255,209,.18);animation-delay:.8s;}
+.energy-ring:nth-child(3){width:500px;height:500px;transform:translate(-50%,-50%);border-color:rgba(255,45,45,.08);animation-delay:1.6s;}
+
+/* hero character SVG container */
+.hero-char-wrap{position:relative;z-index:10;animation:heroFloat 4s ease-in-out infinite;transform-style:preserve-3d;cursor:pointer;}
+.hero-char-wrap svg{filter:drop-shadow(0 0 30px rgba(255,45,45,.5)) drop-shadow(0 20px 40px rgba(0,0,0,.8));}
+.char-ground-glow{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);width:200px;height:30px;background:radial-gradient(ellipse,rgba(255,45,45,.5),transparent 70%);filter:blur(10px);animation:shadowPulse 4s ease-in-out infinite;}
+
+/* Ability cards */
+.ability-card{position:absolute;background:rgba(10,10,20,.92);border:1px solid rgba(255,45,45,.3);padding:.65rem 1.1rem;backdrop-filter:blur(12px);clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));animation:cardFloat 3s ease-in-out infinite;z-index:20;}
+.ability-card .ab-icon{font-size:1.1rem;margin-bottom:.3rem;display:block;}
+.ability-card .ab-name{font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--r);}
+.ability-card .ab-key{font-size:.65rem;color:var(--muted);margin-top:.1rem;}
+.ab-card-1{top:8%;left:2%;animation-delay:0s;}
+.ab-card-2{top:52%;left:-2%;animation-delay:1s;}
+.ab-card-3{top:10%;right:2%;animation-delay:.5s;}
+.ab-card-4{bottom:16%;right:0%;animation-delay:1.5s;}
+.agent-dots{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);display:flex;gap:.8rem;z-index:20;}
+.agent-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .2s;}
+.agent-dot.active{background:var(--r);box-shadow:0 0 10px var(--r);}
+.char-label{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--r);border:1px solid rgba(255,45,45,.28);padding:.3rem 1rem;background:rgba(10,10,15,.85);white-space:nowrap;z-index:20;}
+
+/* particle */
+.particle{position:absolute;border-radius:50%;pointer-events:none;animation:particleFloat linear forwards;}
+
+/* ─── SECTIONS ─── */
+section.s{padding:8rem 0;position:relative;overflow:hidden;}
+.container{max-width:1280px;margin:0 auto;padding:0 3rem;}
+.s-tag{display:inline-flex;align-items:center;gap:.6rem;font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--c);margin-bottom:1rem;}
+.s-tag::before{content:'//';color:rgba(0,255,209,.4);}
+.s-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,5rem);line-height:1;letter-spacing:.04em;color:var(--w);margin-bottom:1.2rem;}
+.s-title .accent{color:var(--r);}
+.s-title .accent-c{color:var(--c);}
+.s-body{font-size:1rem;line-height:1.7;color:var(--muted);max-width:480px;font-weight:400;}
+
+/* ─── AGENTS ─── */
+.agents-bg{background:var(--b2);}
+.agents-bg::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,45,45,.03),transparent 50%,rgba(0,255,209,.03));}
+.agents-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:4rem;}
+.agents-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;}
+.agent-card{position:relative;overflow:hidden;background:var(--g);border:1px solid rgba(255,255,255,.06);cursor:pointer;transform-style:preserve-3d;transition:transform .4s,border-color .3s;clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,20px 100%,0 calc(100% - 20px));}
+.agent-card:hover{border-color:var(--border);transform:translateY(-10px) rotateY(-4deg);box-shadow:8px 20px 40px rgba(0,0,0,.6),0 0 40px rgba(255,45,45,.12);}
+.agent-card:hover .agent-bg-glow{opacity:1;}
+.agent-card:hover .agent-overlay{opacity:1;}
+.agent-card:hover .card-char-svg{transform:translateY(-6px) scale(1.04);}
+.agent-bg-glow{position:absolute;inset:0;opacity:0;transition:opacity .3s;background:radial-gradient(ellipse at bottom,rgba(255,45,45,.14),transparent 60%);}
+.agent-portrait{width:100%;height:290px;display:flex;align-items:flex-end;justify-content:center;position:relative;overflow:hidden;background:linear-gradient(to bottom,rgba(20,8,8,.6) 0%,rgba(10,10,20,.9) 100%);}
+.card-char-svg{transition:transform .4s ease;position:relative;z-index:2;}
+.portrait-bg-glow{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:180px;height:60px;border-radius:50%;filter:blur(20px);z-index:1;}
+.theme-red .portrait-bg-glow{background:rgba(255,45,45,.5);}
+.theme-cyan .portrait-bg-glow{background:rgba(0,255,209,.45);}
+.theme-gold .portrait-bg-glow{background:rgba(255,214,0,.45);}
+.theme-purple .portrait-bg-glow{background:rgba(180,79,255,.45);}
+.agent-info{padding:1.2rem 1.4rem;}
+.agent-name{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.06em;color:var(--w);}
+.agent-role{font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;margin-top:.2rem;}
+.theme-red .agent-role{color:#FF2D2D;}
+.theme-cyan .agent-role{color:#00FFD1;}
+.theme-gold .agent-role{color:#FFD600;}
+.theme-purple .agent-role{color:#B44FFF;}
+.agent-abilities{display:flex;gap:.5rem;margin-top:.8rem;}
+.ab-pip{width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:.75rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);}
+.agent-overlay{position:absolute;bottom:0;left:0;right:0;height:3px;opacity:0;transition:opacity .3s;}
+.theme-red .agent-overlay{background:linear-gradient(90deg,transparent,#FF2D2D,transparent);}
+.theme-cyan .agent-overlay{background:linear-gradient(90deg,transparent,#00FFD1,transparent);}
+.theme-gold .agent-overlay{background:linear-gradient(90deg,transparent,#FFD600,transparent);}
+.theme-purple .agent-overlay{background:linear-gradient(90deg,transparent,#B44FFF,transparent);}
+
+/* ─── MAP SECTION ─── */
+.map-section{background:var(--b3);}
+.map-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.map-visual{position:relative;height:420px;border:1px solid rgba(255,45,45,.15);background:var(--b);overflow:hidden;clip-path:polygon(0 0,calc(100% - 30px) 0,100% 30px,100% 100%,30px 100%,0 calc(100% - 30px));}
+.map-grid-inner{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,209,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,209,.05) 1px,transparent 1px);background-size:30px 30px;}
+.map-zone{position:absolute;border:1px solid;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;}
+.mz-a{width:90px;height:70px;top:15%;left:10%;border-color:rgba(255,45,45,.4);color:#FF2D2D;background:rgba(255,45,45,.06);}
+.mz-b{width:90px;height:70px;bottom:20%;right:10%;border-color:rgba(0,255,209,.4);color:#00FFD1;background:rgba(0,255,209,.06);}
+.mz-mid{width:80px;height:60px;top:50%;left:50%;transform:translate(-50%,-50%);border-color:rgba(255,214,0,.3);color:#FFD600;background:rgba(255,214,0,.04);}
+.map-ping{position:absolute;width:10px;height:10px;border-radius:50%;animation:pingPulse 2s infinite;}
+.mp1{top:20%;left:15%;background:#FF2D2D;animation-delay:0s;}
+.mp2{bottom:25%;right:15%;background:#00FFD1;animation-delay:.7s;}
+.mp3{top:45%;left:45%;background:#FFD600;animation-delay:1.4s;}
+.map-corner{position:absolute;width:20px;height:20px;border-color:var(--r);border-style:solid;}
+.mc-tl{top:8px;left:8px;border-width:2px 0 0 2px;}
+.mc-tr{top:8px;right:8px;border-width:2px 2px 0 0;}
+.mc-bl{bottom:8px;left:8px;border-width:0 0 2px 2px;}
+.mc-br{bottom:8px;right:8px;border-width:0 2px 2px 0;}
+.map-hud{position:absolute;top:1rem;left:1rem;right:1rem;display:flex;justify-content:space-between;align-items:center;}
+.hud-timer{font-family:'Orbitron',monospace;font-size:.8rem;color:var(--y);letter-spacing:.15em;}
+.hud-status{font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--r);border:1px solid rgba(255,45,45,.3);padding:.2rem .6rem;background:rgba(255,45,45,.06);}
+.map-info{padding-left:2rem;}
+.map-feature{display:flex;gap:1.2rem;align-items:flex-start;margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.05);}
+.map-feature:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.mf-icon{width:44px;height:44px;flex-shrink:0;background:rgba(255,45,45,.08);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);}
+.mf-name{font-family:'Orbitron',monospace;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--w);margin-bottom:.3rem;}
+.mf-desc{font-size:.88rem;color:var(--muted);line-height:1.5;}
+
+/* ─── RANKS ─── */
+.ranks-section{background:var(--b2);}
+.ranks-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1rem;margin-top:3rem;}
+.rank-card{text-align:center;padding:1.8rem 1rem;background:var(--g);border:1px solid rgba(255,255,255,.05);transition:all .25s;cursor:pointer;clip-path:polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%);}
+.rank-card:hover{background:rgba(255,45,45,.08);border-color:var(--border);transform:translateY(-4px);}
+.rank-icon{width:54px;height:54px;margin:0 auto 1rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;border:2px solid transparent;}
+.r1 .rank-icon{background:rgba(88,88,88,.2);border-color:rgba(88,88,88,.4);}
+.r2 .rank-icon{background:rgba(180,160,100,.2);border-color:rgba(180,160,100,.4);}
+.r3 .rank-icon{background:rgba(140,140,140,.2);border-color:rgba(140,140,140,.4);}
+.r4 .rank-icon{background:rgba(255,165,0,.15);border-color:rgba(255,165,0,.4);}
+.r5 .rank-icon{background:rgba(0,200,255,.15);border-color:rgba(0,200,255,.4);}
+.r6 .rank-icon{background:rgba(255,45,45,.2);border-color:rgba(255,45,45,.6);box-shadow:0 0 16px rgba(255,45,45,.3);}
+.rank-name{font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--w);margin-bottom:.3rem;}
+.rank-pts{font-size:.72rem;color:var(--muted);}
+
+/* ─── SEASON ─── */
+.season-section{position:relative;padding:6rem 0;overflow:hidden;background:linear-gradient(135deg,#0D0308 0%,#0A0A0F 40%,#030D0D 100%);}
+.season-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 20% 50%,rgba(255,45,45,.08),transparent),radial-gradient(ellipse 70% 80% at 80% 50%,rgba(0,255,209,.06),transparent);}
+.season-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;position:relative;}
+.season-badge{display:inline-flex;align-items:center;gap:.5rem;font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--y);border:1px solid rgba(255,214,0,.25);padding:.4rem 1rem;background:rgba(255,214,0,.05);margin-bottom:1.2rem;}
+.season-countdown{display:flex;gap:1.5rem;margin-top:2rem;}
+.cd-block{text-align:center;}
+.cd-num{font-family:'Orbitron',monospace;font-size:2.2rem;font-weight:900;color:var(--w);display:block;line-height:1;}
+.cd-label{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:.3rem;display:block;}
+.cd-sep{font-family:'Orbitron',monospace;font-size:1.8rem;color:rgba(255,45,45,.4);padding-top:.2rem;}
+.trophy-wrap{position:relative;height:420px;display:flex;align-items:center;justify-content:center;}
+.trophy{position:relative;animation:heroFloat 3.5s ease-in-out infinite;}
+.t-top{width:80px;height:40px;margin:0 auto;background:linear-gradient(to bottom,#FFD600,#B8960C);clip-path:polygon(0% 100%,15% 0%,85% 0%,100% 100%);box-shadow:0 0 20px rgba(255,214,0,.4);}
+.t-cup{width:120px;height:140px;margin:0 auto;background:linear-gradient(160deg,#FFD600 0%,#B8960C 40%,#FFD600 70%,#B8960C 100%);clip-path:polygon(5% 0%,95% 0%,85% 100%,15% 100%);position:relative;box-shadow:0 0 30px rgba(255,214,0,.3),inset 0 0 20px rgba(0,0,0,.3);}
+.t-cup::after{content:'⚡';position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);font-size:2rem;filter:drop-shadow(0 0 8px rgba(255,45,45,.8));}
+.t-handles{position:absolute;top:20px;width:150px;display:flex;justify-content:space-between;left:50%;transform:translateX(-50%);}
+.t-handle{width:14px;height:50px;background:linear-gradient(to bottom,#FFD600,#B8960C);border-radius:10px 10px 0 0;box-shadow:0 0 10px rgba(255,214,0,.3);}
+.t-stem{width:20px;height:50px;margin:0 auto;background:linear-gradient(to bottom,#B8960C,#FFD600);}
+.t-base{width:140px;height:20px;margin:0 auto;background:linear-gradient(to bottom,#FFD600,#B8960C);clip-path:polygon(0% 20%,5% 0%,95% 0%,100% 20%,100% 100%,0% 100%);box-shadow:0 0 20px rgba(255,214,0,.3);}
+.t-ring{position:absolute;border-radius:50%;border:1px solid rgba(255,214,0,.2);top:50%;left:50%;transform:translate(-50%,-50%);animation:ringExpand 2s infinite;}
+.t-ring:nth-child(1){width:200px;height:200px;animation-delay:0;}
+.t-ring:nth-child(2){width:280px;height:280px;animation-delay:.7s;border-color:rgba(255,45,45,.1);}
+.t-ring:nth-child(3){width:360px;height:360px;animation-delay:1.4s;border-color:rgba(0,255,209,.06);}
+.reward-items{display:flex;flex-direction:column;gap:.8rem;margin-top:2rem;}
+.reward-item{display:flex;align-items:center;gap:1rem;padding:.8rem 1.2rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-left:3px solid var(--r);}
+.ri-icon{font-size:1.1rem;}
+.ri-name{font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--w);}
+.ri-val{margin-left:auto;font-family:'Orbitron',monospace;font-size:.65rem;color:var(--y);}
+
+/* ─── CTA ─── */
+.cta-section{text-align:center;padding:8rem 3rem;background:var(--b);position:relative;overflow:hidden;}
+.cta-section::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:400px;background:radial-gradient(ellipse,rgba(255,45,45,.07),transparent 65%);pointer-events:none;}
+.cta-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,8vw,7rem);line-height:.95;letter-spacing:.04em;margin-bottom:1.5rem;}
+.cta-btns{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;margin-top:2.5rem;}
+
+/* ─── FOOTER ─── */
+footer{background:var(--b2);border-top:1px solid rgba(255,45,45,.08);padding:2.5rem 3rem;}
+.footer-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+.footer-logo{font-family:'Orbitron',monospace;font-size:.9rem;font-weight:900;color:var(--w);letter-spacing:.15em;}
+.footer-logo span{color:var(--r);}
+.footer-links{display:flex;gap:2rem;list-style:none;}
+.footer-links a{font-family:'Rajdhani',sans-serif;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--r);}
+.footer-copy{font-size:.72rem;color:rgba(122,122,154,.4);}
+
+/* ─── ANIMATIONS ─── */
+@keyframes heroFloat{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-20px) rotate(.8deg);}}
+@keyframes shadowPulse{0%,100%{opacity:.7;transform:translateX(-50%) scaleX(1);}50%{opacity:.3;transform:translateX(-50%) scaleX(.75);}}
+@keyframes ringExpand{0%{transform:translate(-50%,-50%) scale(.8);opacity:.9;}100%{transform:translate(-50%,-50%) scale(1.6);opacity:0;}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.8);}}
+@keyframes cardFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+@keyframes particleFloat{0%{transform:translateY(0) translateX(0);opacity:1;}100%{transform:translateY(-180px) translateX(var(--px,20px));opacity:0;}}
+@keyframes pingPulse{0%{box-shadow:0 0 0 0 currentColor;opacity:1;}70%{box-shadow:0 0 0 14px transparent;}100%{box-shadow:0 0 0 0 transparent;}}
+@keyframes dashMove{to{stroke-dashoffset:-20;}}
+@keyframes scanBar{0%{top:0;opacity:.6;}100%{top:100%;opacity:0;}}
+@keyframes charIdle{0%,100%{transform:rotate(0deg);}25%{transform:rotate(-1.5deg);}75%{transform:rotate(1.5deg);}}
+@keyframes weaponGlow{0%,100%{filter:drop-shadow(0 0 8px #00FFD1) drop-shadow(0 0 20px rgba(0,255,209,.4));}50%{filter:drop-shadow(0 0 14px #00FFD1) drop-shadow(0 0 35px rgba(0,255,209,.7));}}
+@keyframes eyePulse{0%,100%{fill:#00FFD1;filter:drop-shadow(0 0 4px #00FFD1);}50%{fill:#fff;filter:drop-shadow(0 0 10px #fff);}}
+@keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .65s ease,transform .65s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+.reveal-left{opacity:0;transform:translateX(-40px);transition:opacity .65s ease,transform .65s ease;}
+.reveal-left.in{opacity:1;transform:translateX(0);}
+.reveal-right{opacity:0;transform:translateX(40px);transition:opacity .65s ease,transform .65s ease;}
+.reveal-right.in{opacity:1;transform:translateX(0);}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--r),var(--c));z-index:9999;width:0%;transition:width .1s;box-shadow:0 0 6px var(--r);}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">VOR<span class="logo-accent">T</span>EX</div>
+  <ul class="nav-links">
+    <li><a href="#agents">Agents</a></li>
+    <li><a href="#maps">Battleground</a></li>
+    <li><a href="#ranks">Ranks</a></li>
+    <li><a href="#season">Season</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="btn-nav">Play Now</button>
+  </div>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="scanlines"></div>
+  <div class="slash-bg"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-tag">
+        <span class="tag-dot"></span>
+        Season 4 — Now Live
+      </div>
+      <h1 class="hero-title">
+        <span class="title-line1">ENTER</span>
+        <span class="title-line2">THE</span>
+        <span class="title-line3">VORTEX</span>
+      </h1>
+      <p class="hero-sub">
+        A <strong>5v5 tactical battle arena</strong> where elite agents clash across impossible battlegrounds.
+        Master your element. Dominate the zone. Leave nothing behind.
+      </p>
+      <div class="hero-btns">
+        <button class="btn-primary">▶ Play Free</button>
+        <button class="btn-ghost">Watch Cinematic</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num" data-count="24">0</span><span class="stat-label">Agents</span></div>
+        <div class="stat"><span class="stat-num" data-count="12">0</span><span class="stat-label">Maps</span></div>
+        <div class="stat"><span class="stat-num" data-suffix="M" data-count="48">0</span><span class="stat-label">Players</span></div>
+        <div class="stat"><span class="stat-num" data-count="4">0</span><span class="stat-label">Seasons</span></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: 3D Cartoon Hero Character -->
+    <div class="hero-right" id="heroRight">
+      <div class="char-stage">
+        <div class="energy-ring"></div>
+        <div class="energy-ring"></div>
+        <div class="energy-ring"></div>
+
+        <!-- HERO CHARACTER — Bold flat cartoon warrior (fire/elemental style) -->
+        <div class="hero-char-wrap" id="charMain">
+          <svg width="320" height="520" viewBox="0 0 320 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- ── GROUND PLATFORM ── -->
+            <ellipse cx="160" cy="500" rx="90" ry="12" fill="rgba(255,45,45,0.25)" filter="url(#shadowBlur)"/>
+
+            <!-- ── BACK CAPE ── -->
+            <path d="M100 160 Q60 280 50 420 Q80 380 100 340 Q120 400 130 440 Q150 380 160 360 Q170 380 190 440 Q200 400 220 340 Q240 380 260 420 Q250 280 220 160 Q190 180 160 175 Q130 180 100 160Z" fill="#8B0000" opacity="0.9"/>
+            <path d="M110 170 Q75 290 65 400 Q90 355 105 325 Q125 380 135 425 Q152 370 160 350 Q168 370 185 425 Q195 380 215 325 Q230 355 255 400 Q245 290 210 170" fill="#6B0000" opacity="0.6"/>
+            <!-- Cape tribal markings -->
+            <path d="M140 220 Q160 210 180 220 Q175 240 160 245 Q145 240 140 220Z" fill="#FF2D2D" opacity="0.5"/>
+            <path d="M130 270 Q160 258 190 270 Q185 295 160 300 Q135 295 130 270Z" fill="#FF2D2D" opacity="0.35"/>
+
+            <!-- ── LEGS ── -->
+            <!-- Left leg -->
+            <path d="M120 340 Q105 360 100 400 Q98 430 108 445 Q118 455 128 450 Q140 445 142 430 Q145 400 145 370 Q145 350 135 340Z" fill="#1A0A0A"/>
+            <path d="M120 340 Q105 360 100 400 Q98 430 108 445 Q118 455 128 450 Q140 445 142 430 Q145 400 145 370 Q145 350 135 340Z" fill="none" stroke="#FF2D2D" stroke-width="1.5" opacity="0.6"/>
+            <!-- Left boot -->
+            <path d="M100 440 Q95 455 90 465 Q88 475 100 478 Q115 480 130 476 Q142 472 143 462 Q144 452 135 448 Q122 444 110 444Z" fill="#2D0A0A"/>
+            <path d="M100 440 Q95 455 90 465 Q88 475 100 478 Q115 480 130 476 Q142 472 143 462 Q144 452 135 448 Q122 444 110 444Z" fill="none" stroke="#FF2D2D" stroke-width="1.5"/>
+            <!-- Leg armor stripe -->
+            <path d="M110 370 L135 370" stroke="#FF2D2D" stroke-width="2" opacity="0.7"/>
+            <path d="M107 385 L138 385" stroke="#FF6B6B" stroke-width="1" opacity="0.5"/>
+
+            <!-- Right leg -->
+            <path d="M200 340 Q215 360 220 400 Q222 430 212 445 Q202 455 192 450 Q180 445 178 430 Q175 400 175 370 Q175 350 185 340Z" fill="#1A0A0A"/>
+            <path d="M200 340 Q215 360 220 400 Q222 430 212 445 Q202 455 192 450 Q180 445 178 430 Q175 400 175 370 Q175 350 185 340Z" fill="none" stroke="#FF2D2D" stroke-width="1.5" opacity="0.6"/>
+            <!-- Right boot -->
+            <path d="M220 440 Q225 455 230 465 Q232 475 220 478 Q205 480 190 476 Q178 472 177 462 Q176 452 185 448 Q198 444 210 444Z" fill="#2D0A0A"/>
+            <path d="M220 440 Q225 455 230 465 Q232 475 220 478 Q205 480 190 476 Q178 472 177 462 Q176 452 185 448 Q198 444 210 444Z" fill="none" stroke="#FF2D2D" stroke-width="1.5"/>
+            <!-- Right leg armor -->
+            <path d="M210 370 L185 370" stroke="#FF2D2D" stroke-width="2" opacity="0.7"/>
+            <path d="M213 385 L182 385" stroke="#FF6B6B" stroke-width="1" opacity="0.5"/>
+
+            <!-- Belt/hip area -->
+            <path d="M110 330 Q160 345 210 330 L215 350 Q160 365 105 350Z" fill="#FF2D2D"/>
+            <path d="M125 335 L135 348 M155 338 L155 350 M175 338 L165 348" stroke="#8B0000" stroke-width="2"/>
+
+            <!-- ── TORSO (Chest armor) ── -->
+            <path d="M105 170 Q95 200 92 240 Q90 270 95 310 Q105 335 120 340 Q160 350 200 340 Q215 335 225 310 Q230 270 228 240 Q225 200 215 170 Q190 155 160 152 Q130 155 105 170Z" fill="#1A0A0A"/>
+            <!-- Chest armor plate -->
+            <path d="M115 180 Q160 168 205 180 Q210 210 208 245 Q205 275 200 300 Q180 315 160 318 Q140 315 120 300 Q115 275 112 245 Q110 210 115 180Z" fill="#220808"/>
+            <path d="M115 180 Q160 168 205 180 Q210 210 208 245 Q205 275 200 300 Q180 315 160 318 Q140 315 120 300 Q115 275 112 245 Q110 210 115 180Z" fill="none" stroke="#FF2D2D" stroke-width="2"/>
+            <!-- Central chest emblem -->
+            <path d="M160 200 L170 225 L155 218 L160 245 L150 220 L145 230 L160 200Z" fill="#FF2D2D" filter="url(#fireGlow)"/>
+            <path d="M160 200 L168 222 L155 216 L160 240 L152 218 L147 228Z" fill="#FFD600" opacity="0.6"/>
+            <!-- Chest armor lines -->
+            <path d="M120 215 L148 208" stroke="#FF2D2D" stroke-width="1.5" opacity="0.7"/>
+            <path d="M200 215 L172 208" stroke="#FF2D2D" stroke-width="1.5" opacity="0.7"/>
+            <path d="M118 240 L147 235" stroke="#FF6B6B" stroke-width="1" opacity="0.5"/>
+            <path d="M202 240 L173 235" stroke="#FF6B6B" stroke-width="1" opacity="0.5"/>
+            <!-- Shoulder pieces -->
+            <path d="M95 175 Q80 175 75 195 Q73 215 85 220 Q100 225 112 215 Q115 195 108 180Z" fill="#FF2D2D"/>
+            <path d="M95 175 Q80 175 75 195 Q73 215 85 220 Q100 225 112 215 Q115 195 108 180Z" fill="none" stroke="#8B0000" stroke-width="1.5"/>
+            <path d="M225 175 Q240 175 245 195 Q247 215 235 220 Q220 225 208 215 Q205 195 212 180Z" fill="#FF2D2D"/>
+            <path d="M225 175 Q240 175 245 195 Q247 215 235 220 Q220 225 208 215 Q205 195 212 180Z" fill="none" stroke="#8B0000" stroke-width="1.5"/>
+            <!-- Shoulder studs -->
+            <circle cx="84" cy="195" r="5" fill="#FFD600"/><circle cx="84" cy="195" r="3" fill="#FF9900"/>
+            <circle cx="236" cy="195" r="5" fill="#FFD600"/><circle cx="236" cy="195" r="3" fill="#FF9900"/>
+            <!-- Tribal chest tattoo -->
+            <path d="M130 270 Q145 262 160 265 Q175 262 190 270" stroke="#FF2D2D" stroke-width="1.5" fill="none" opacity="0.6"/>
+            <path d="M125 285 Q145 275 160 278 Q175 275 195 285" stroke="#FF6B6B" stroke-width="1" fill="none" opacity="0.4"/>
+
+            <!-- ── LEFT ARM (sword arm — raised) ── -->
+            <path d="M92 215 Q70 230 55 255 Q45 275 50 295 Q55 312 68 315 Q82 317 92 305 Q102 292 102 270 Q103 248 100 230Z" fill="#1A0A0A"/>
+            <path d="M92 215 Q70 230 55 255 Q45 275 50 295 Q55 312 68 315 Q82 317 92 305 Q102 292 102 270 Q103 248 100 230Z" fill="none" stroke="#FF2D2D" stroke-width="1.5" opacity="0.5"/>
+            <!-- Arm bracers -->
+            <path d="M55 270 Q50 280 52 290 Q62 298 75 294 Q83 290 82 280 Q80 270 70 268Z" fill="#FF2D2D"/>
+            <path d="M55 270 Q50 280 52 290 Q62 298 75 294 Q83 290 82 280 Q80 270 70 268Z" fill="none" stroke="#8B0000" stroke-width="1"/>
+
+            <!-- ── RIGHT ARM (shield/fist) ── -->
+            <path d="M228 215 Q250 230 265 255 Q275 275 270 295 Q265 312 252 315 Q238 317 228 305 Q218 292 218 270 Q217 248 220 230Z" fill="#1A0A0A"/>
+            <path d="M228 215 Q250 230 265 255 Q275 275 270 295 Q265 312 252 315 Q238 317 228 305 Q218 292 218 270 Q217 248 220 230Z" fill="none" stroke="#FF2D2D" stroke-width="1.5" opacity="0.5"/>
+            <!-- Right arm bracer -->
+            <path d="M265 270 Q270 280 268 290 Q258 298 245 294 Q237 290 238 280 Q240 270 250 268Z" fill="#FF2D2D"/>
+            <path d="M265 270 Q270 280 268 290 Q258 298 245 294 Q237 290 238 280 Q240 270 250 268Z" fill="none" stroke="#8B0000" stroke-width="1"/>
+
+            <!-- ── ENERGY SWORD (left hand) ── -->
+            <!-- Sword handle -->
+            <rect x="38" y="308" width="30" height="10" rx="3" fill="#4A3000" stroke="#FFD600" stroke-width="1.5" transform="rotate(-30 53 313)"/>
+            <rect x="45" y="298" width="16" height="6" rx="2" fill="#FFD600" transform="rotate(-30 53 301)"/>
+            <!-- Blade -->
+            <path d="M50 295 Q45 250 30 180 Q28 165 35 160 Q42 157 48 170 Q58 240 62 285 Q58 292 50 295Z" fill="url(#bladeGrad)" style="animation:weaponGlow 2s ease-in-out infinite;"/>
+            <path d="M50 295 Q46 255 32 182 Q30 167 36 162 Q40 159 44 168 Q54 242 58 287Z" fill="rgba(0,255,209,0.3)"/>
+            <!-- Blade glow particles -->
+            <circle cx="35" cy="175" r="3" fill="#00FFD1" opacity="0.8" style="animation:pulse 1s infinite;"/>
+            <circle cx="38" cy="195" r="2" fill="#00FFD1" opacity="0.6" style="animation:pulse 1.3s infinite;"/>
+            <circle cx="42" cy="215" r="2" fill="#fff" opacity="0.5" style="animation:pulse 0.8s infinite;"/>
+
+            <!-- ── RIGHT FIST (energy charged) ── -->
+            <path d="M262 300 Q275 295 280 308 Q282 320 272 328 Q260 334 250 325 Q242 316 246 305 Q252 298 262 300Z" fill="#1A0A0A" stroke="#00FFD1" stroke-width="1.5"/>
+            <!-- Energy charge around fist -->
+            <circle cx="265" cy="314" r="18" fill="none" stroke="#00FFD1" stroke-width="1" opacity="0.5" style="animation:ringExpand 1.5s infinite;"/>
+            <circle cx="265" cy="314" r="12" fill="none" stroke="#00FFD1" stroke-width="1.5" opacity="0.7" style="animation:ringExpand 1.5s .5s infinite;"/>
+
+            <!-- ── NECK ── -->
+            <rect x="148" y="148" width="24" height="18" rx="4" fill="#1A0A0A" stroke="#FF2D2D" stroke-width="1" opacity="0.8"/>
+
+            <!-- ── HEAD ── -->
+            <!-- Head base -->
+            <path d="M115 110 Q115 65 160 55 Q205 65 205 110 Q205 148 190 155 Q160 162 130 155 Q115 148 115 110Z" fill="#2A1010"/>
+            <path d="M115 110 Q115 65 160 55 Q205 65 205 110 Q205 148 190 155 Q160 162 130 155 Q115 148 115 110Z" fill="none" stroke="#FF2D2D" stroke-width="2"/>
+            <!-- Helmet top -->
+            <path d="M130 75 Q160 52 190 75 Q200 65 195 50 Q175 30 160 28 Q145 30 125 50 Q120 65 130 75Z" fill="#FF2D2D"/>
+            <path d="M140 68 Q160 55 180 68 Q185 58 178 48 Q165 36 160 34 Q155 36 142 48 Q135 58 140 68Z" fill="#FFD600" opacity="0.7"/>
+            <!-- Helmet crest/mohawk -->
+            <path d="M155 28 Q158 8 160 0 Q162 8 165 28" stroke="#FF2D2D" stroke-width="3" fill="none"/>
+            <path d="M153 22 Q156 5 160 -2 Q164 5 167 22" stroke="#FFD600" stroke-width="2" fill="none" opacity="0.7"/>
+            <!-- Mask face plate -->
+            <path d="M125 95 Q128 80 160 78 Q192 80 195 95 Q196 115 190 128 Q180 138 160 140 Q140 138 130 128 Q124 115 125 95Z" fill="#0D0505" stroke="#FF2D2D" stroke-width="1.5"/>
+            <!-- EYES — glowing cyan -->
+            <ellipse cx="143" cy="102" rx="12" ry="8" fill="#001A16" stroke="#00FFD1" stroke-width="1.5"/>
+            <ellipse cx="177" cy="102" rx="12" ry="8" fill="#001A16" stroke="#00FFD1" stroke-width="1.5"/>
+            <ellipse cx="143" cy="102" rx="7" ry="5" fill="#00FFD1" style="animation:eyePulse 2s ease-in-out infinite;"/>
+            <ellipse cx="177" cy="102" rx="7" ry="5" fill="#00FFD1" style="animation:eyePulse 2s .5s ease-in-out infinite;"/>
+            <ellipse cx="143" cy="101" rx="3" ry="2" fill="#fff" opacity="0.9"/>
+            <ellipse cx="177" cy="101" rx="3" ry="2" fill="#fff" opacity="0.9"/>
+            <!-- Nose/mouth area -->
+            <path d="M155 118 Q160 122 165 118" stroke="#FF6B6B" stroke-width="1.5" fill="none"/>
+            <!-- Scar marking -->
+            <path d="M138 88 L148 98" stroke="#FF2D2D" stroke-width="1.5" opacity="0.8"/>
+            <!-- Side temple marks -->
+            <path d="M118 100 Q123 95 127 100 Q127 108 123 110 Q119 108 118 100Z" fill="#FF2D2D" opacity="0.7"/>
+            <path d="M202 100 Q197 95 193 100 Q193 108 197 110 Q201 108 202 100Z" fill="#FF2D2D" opacity="0.7"/>
+            <!-- Jaw/chin armor -->
+            <path d="M130 132 Q160 142 190 132 Q188 145 160 150 Q132 145 130 132Z" fill="#FF2D2D" opacity="0.6"/>
+
+            <!-- ── TRIBAL TATTOOS on arms ── -->
+            <path d="M65 240 Q70 235 78 240 Q82 248 78 254 Q70 257 65 252 Q62 246 65 240Z" fill="none" stroke="#FF2D2D" stroke-width="1.5" opacity="0.7"/>
+            <path d="M60 262 L78 258" stroke="#FF6B6B" stroke-width="1" opacity="0.5"/>
+            <path d="M255 240 Q250 235 242 240 Q238 248 242 254 Q250 257 255 252 Q258 246 255 240Z" fill="none" stroke="#FF2D2D" stroke-width="1.5" opacity="0.7"/>
+            <path d="M260 262 L242 258" stroke="#FF6B6B" stroke-width="1" opacity="0.5"/>
+
+            <!-- ── FIRE EFFECTS at feet ── -->
+            <path d="M110 480 Q118 460 125 470 Q132 450 138 465 Q145 445 150 462 Q155 448 160 460 Q165 448 170 462 Q175 445 182 465 Q188 450 195 470 Q202 460 210 480" fill="none" stroke="#FF2D2D" stroke-width="2" opacity="0.6" style="animation:pulse 1.2s ease-in-out infinite;"/>
+            <path d="M115 485 Q125 468 132 478 Q140 458 147 472 Q155 455 160 468 Q165 455 173 472 Q180 458 188 478 Q195 468 205 485" fill="none" stroke="#FF6B6B" stroke-width="1.5" opacity="0.4" style="animation:pulse 1.5s .3s ease-in-out infinite;"/>
+
+            <!-- ── DEFS ── -->
+            <defs>
+              <linearGradient id="bladeGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#00FFD1"/>
+                <stop offset="50%" stop-color="#00E8BC"/>
+                <stop offset="100%" stop-color="rgba(0,255,209,0.3)"/>
+              </linearGradient>
+              <filter id="fireGlow">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="shadowBlur">
+                <feGaussianBlur stdDeviation="8"/>
+              </filter>
+            </defs>
+          </svg>
+          <div class="char-ground-glow"></div>
+        </div>
+
+        <!-- Ability Cards -->
+        <div class="ability-card ab-card-1"><span class="ab-icon">🔥</span><div class="ab-name">Inferno</div><div class="ab-key">Q — Fire</div></div>
+        <div class="ability-card ab-card-2"><span class="ab-icon">⚡</span><div class="ab-name">Arc Surge</div><div class="ab-key">E — Energy</div></div>
+        <div class="ability-card ab-card-3"><span class="ab-icon">🛡</span><div class="ab-name">Void Shield</div><div class="ab-key">C — Defend</div></div>
+        <div class="ability-card ab-card-4"><span class="ab-icon">💀</span><div class="ab-name">Death Rift</div><div class="ab-key">X — Ultimate</div></div>
+
+        <div class="char-label" id="charLabel">RAZE — FIRE DUELIST</div>
+        <div class="agent-dots">
+          <div class="agent-dot active" data-char="0"></div>
+          <div class="agent-dot" data-char="1"></div>
+          <div class="agent-dot" data-char="2"></div>
+          <div class="agent-dot" data-char="3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ AGENTS ═══════════════ -->
+<section class="s agents-bg" id="agents">
+  <div class="container">
+    <div class="agents-header reveal">
+      <div>
+        <div class="s-tag">Choose Your Agent</div>
+        <h2 class="s-title">WHO WILL <span class="accent">YOU</span><br><span class="accent-c">BECOME?</span></h2>
+      </div>
+      <button class="btn-ghost" style="height:fit-content;">View All Agents ↗</button>
+    </div>
+
+    <div class="agents-grid">
+
+      <!-- ── AGENT 1: RAZE (Fire) ── -->
+      <div class="agent-card theme-red reveal" style="transition-delay:.05s">
+        <div class="agent-portrait">
+          <div style="position:absolute;inset:0;background:linear-gradient(160deg,#1A0505 0%,#0A0010 100%);"></div>
+          <div class="portrait-bg-glow"></div>
+          <div class="card-char-svg">
+            <svg width="160" height="265" viewBox="0 0 160 265" fill="none">
+              <!-- Cape -->
+              <path d="M45 78 Q25 145 22 220 Q40 190 50 175 Q62 205 68 225 Q80 185 80 170 Q80 185 92 225 Q98 205 110 175 Q120 190 138 220 Q135 145 115 78 Q97 88 80 85 Q63 88 45 78Z" fill="#6B0000" opacity="0.85"/>
+              <!-- Legs -->
+              <path d="M52 168 Q44 190 42 218 Q41 232 48 238 Q56 242 64 236 Q70 230 70 216 Q72 195 70 178Z" fill="#150505" stroke="#FF2D2D" stroke-width="1.5" opacity="0.7"/>
+              <path d="M108 168 Q116 190 118 218 Q119 232 112 238 Q104 242 96 236 Q90 230 90 216 Q88 195 90 178Z" fill="#150505" stroke="#FF2D2D" stroke-width="1.5" opacity="0.7"/>
+              <!-- Boots -->
+              <path d="M41 232 Q38 242 36 250 Q35 258 44 260 Q54 262 65 258 Q72 254 72 246 Q71 238 64 236Z" fill="#1A0303" stroke="#FF2D2D" stroke-width="1.5"/>
+              <path d="M119 232 Q122 242 124 250 Q125 258 116 260 Q106 262 95 258 Q88 254 88 246 Q89 238 96 236Z" fill="#1A0303" stroke="#FF2D2D" stroke-width="1.5"/>
+              <!-- Belt -->
+              <path d="M50 165 Q80 172 110 165 L113 175 Q80 182 47 175Z" fill="#FF2D2D"/>
+              <!-- Torso -->
+              <path d="M46 84 Q40 105 38 130 Q37 150 40 165 Q52 172 80 174 Q108 172 120 165 Q123 150 122 130 Q120 105 114 84 Q97 76 80 74 Q63 76 46 84Z" fill="#150505"/>
+              <path d="M50 88 Q80 80 110 88 Q114 112 112 138 Q110 158 104 166 Q80 172 56 166 Q50 158 48 138 Q46 112 50 88Z" fill="#1A0808" stroke="#FF2D2D" stroke-width="1.8"/>
+              <!-- Chest emblem -->
+              <path d="M80 102 L86 118 L77 113 L80 128 L74 114 L71 120 L80 102Z" fill="#FF2D2D"/>
+              <path d="M80 102 L85 115 L77 111 L80 124 L75 113 L72 119Z" fill="#FFD600" opacity="0.6"/>
+              <!-- Shoulders -->
+              <path d="M36 88 Q26 88 23 102 Q22 114 30 118 Q40 122 48 114 Q51 100 44 90Z" fill="#FF2D2D"/>
+              <path d="M124 88 Q134 88 137 102 Q138 114 130 118 Q120 122 112 114 Q109 100 116 90Z" fill="#FF2D2D"/>
+              <circle cx="27" cy="101" r="4" fill="#FFD600"/><circle cx="27" cy="101" r="2.5" fill="#FF9900"/>
+              <circle cx="133" cy="101" r="4" fill="#FFD600"/><circle cx="133" cy="101" r="2.5" fill="#FF9900"/>
+              <!-- Arms -->
+              <path d="M38 110 Q24 122 18 138 Q14 152 18 162 Q23 170 32 170 Q42 170 46 158 Q50 144 48 126Z" fill="#150505" stroke="#FF2D2D" stroke-width="1.2" opacity="0.6"/>
+              <path d="M122 110 Q136 122 142 138 Q146 152 142 162 Q137 170 128 170 Q118 170 114 158 Q110 144 112 126Z" fill="#150505" stroke="#FF2D2D" stroke-width="1.2" opacity="0.6"/>
+              <!-- Bracers -->
+              <path d="M18 143 Q14 150 16 158 Q22 164 30 161 Q36 156 35 149 Q33 143 26 142Z" fill="#FF2D2D"/>
+              <path d="M142 143 Q146 150 144 158 Q138 164 130 161 Q124 156 125 149 Q127 143 134 142Z" fill="#FF2D2D"/>
+              <!-- Sword -->
+              <path d="M12 160 Q8 120 0 55 Q-1 44 4 41 Q9 39 12 48 Q18 110 20 152Z" fill="url(#sword1)" opacity="0.9"/>
+              <path d="M8 155 Q5 118 -2 55 Q-3 46 2 43 Q6 41 9 48 Q14 112 16 150Z" fill="rgba(0,255,209,0.3)"/>
+              <circle cx="1" cy="47" r="3" fill="#00FFD1" style="animation:pulse 1s infinite;"/>
+              <!-- Head -->
+              <path d="M53 54 Q53 24 80 16 Q107 24 107 54 Q107 74 97 80 Q80 86 63 80 Q53 74 53 54Z" fill="#1A0808" stroke="#FF2D2D" stroke-width="1.8"/>
+              <path d="M62 36 Q80 22 98 36 Q104 28 100 17 Q86 6 80 4 Q74 6 60 17 Q56 28 62 36Z" fill="#FF2D2D"/>
+              <path d="M70 30 Q80 20 90 30 Q94 24 90 16 Q82 8 80 7 Q78 8 70 16 Q66 24 70 30Z" fill="#FFD600" opacity="0.7"/>
+              <path d="M78 4 Q80 -4 80 -8 Q80 -4 82 4" stroke="#FF2D2D" stroke-width="2.5" fill="none"/>
+              <!-- Face mask -->
+              <path d="M59 48 Q62 37 80 35 Q98 37 101 48 Q102 62 97 70 Q87 78 80 79 Q73 78 63 70 Q58 62 59 48Z" fill="#0D0303" stroke="#FF2D2D" stroke-width="1.5"/>
+              <!-- Eyes -->
+              <ellipse cx="69" cy="51" rx="9" ry="6" fill="#001A16" stroke="#00FFD1" stroke-width="1.2"/>
+              <ellipse cx="91" cy="51" rx="9" ry="6" fill="#001A16" stroke="#00FFD1" stroke-width="1.2"/>
+              <ellipse cx="69" cy="51" rx="5" ry="3.5" fill="#00FFD1" style="animation:eyePulse 2s infinite;"/>
+              <ellipse cx="91" cy="51" rx="5" ry="3.5" fill="#00FFD1" style="animation:eyePulse 2s .5s infinite;"/>
+              <ellipse cx="69" cy="50" rx="2" ry="1.5" fill="#fff" opacity="0.9"/>
+              <ellipse cx="91" cy="50" rx="2" ry="1.5" fill="#fff" opacity="0.9"/>
+              <!-- Temple marks -->
+              <path d="M55 50 Q58 46 61 50 Q61 56 58 58 Q55 56 55 50Z" fill="#FF2D2D" opacity="0.7"/>
+              <path d="M105 50 Q102 46 99 50 Q99 56 102 58 Q105 56 105 50Z" fill="#FF2D2D" opacity="0.7"/>
+              <!-- Jaw -->
+              <path d="M63 70 Q80 78 97 70 Q95 79 80 83 Q65 79 63 70Z" fill="#FF2D2D" opacity="0.5"/>
+              <!-- Defs -->
+              <defs>
+                <linearGradient id="sword1" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#00FFD1"/>
+                  <stop offset="100%" stop-color="rgba(0,255,209,0.2)"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
+        <div class="agent-bg-glow"></div>
+        <div class="agent-info">
+          <div class="agent-name">RAZE</div>
+          <div class="agent-role">Duelist · Fire</div>
+          <div class="agent-abilities">
+            <div class="ab-pip">🔥</div><div class="ab-pip">💣</div><div class="ab-pip">🚀</div><div class="ab-pip">💀</div>
+          </div>
+        </div>
+        <div class="agent-overlay"></div>
+      </div>
+
+      <!-- ── AGENT 2: CYPHER (Water/Ice) ── -->
+      <div class="agent-card theme-cyan reveal" style="transition-delay:.1s">
+        <div class="agent-portrait">
+          <div style="position:absolute;inset:0;background:linear-gradient(160deg,#030F15 0%,#050A12 100%);"></div>
+          <div class="portrait-bg-glow"></div>
+          <div class="card-char-svg">
+            <svg width="160" height="265" viewBox="0 0 160 265" fill="none">
+              <!-- Flowing water cape -->
+              <path d="M48 82 Q30 155 28 225 Q46 195 55 178 Q65 208 70 228 Q80 188 80 172 Q80 188 90 228 Q95 208 105 178 Q114 195 132 225 Q130 155 112 82 Q96 94 80 90 Q64 94 48 82Z" fill="#003A4A" opacity="0.85"/>
+              <!-- Water ripple marks on cape -->
+              <path d="M56 130 Q80 122 104 130" stroke="#00FFD1" stroke-width="1" fill="none" opacity="0.4"/>
+              <path d="M52 155 Q80 145 108 155" stroke="#00FFD1" stroke-width="1" fill="none" opacity="0.3"/>
+              <!-- Legs -->
+              <path d="M52 168 Q44 190 42 218 Q41 232 48 238 Q56 242 64 236 Q70 230 70 216 Q72 195 70 178Z" fill="#080F12" stroke="#00FFD1" stroke-width="1.5" opacity="0.7"/>
+              <path d="M108 168 Q116 190 118 218 Q119 232 112 238 Q104 242 96 236 Q90 230 90 216 Q88 195 90 178Z" fill="#080F12" stroke="#00FFD1" stroke-width="1.5" opacity="0.7"/>
+              <!-- Boots -->
+              <path d="M41 232 Q38 242 36 250 Q35 258 44 260 Q54 262 65 258 Q72 254 72 246 Q71 238 64 236Z" fill="#050D14" stroke="#00FFD1" stroke-width="1.5"/>
+              <path d="M119 232 Q122 242 124 250 Q125 258 116 260 Q106 262 95 258 Q88 254 88 246 Q89 238 96 236Z" fill="#050D14" stroke="#00FFD1" stroke-width="1.5"/>
+              <!-- Belt -->
+              <path d="M50 165 Q80 172 110 165 L113 175 Q80 182 47 175Z" fill="#00FFD1"/>
+              <!-- Torso -->
+              <path d="M46 84 Q40 105 38 130 Q37 150 40 165 Q52 172 80 174 Q108 172 120 165 Q123 150 122 130 Q120 105 114 84 Q97 76 80 74 Q63 76 46 84Z" fill="#080F12"/>
+              <path d="M50 88 Q80 80 110 88 Q114 112 112 138 Q110 158 104 166 Q80 172 56 166 Q50 158 48 138 Q46 112 50 88Z" fill="#0A1520" stroke="#00FFD1" stroke-width="1.8"/>
+              <!-- Chest water emblem -->
+              <path d="M80 105 Q72 115 70 125 Q72 138 80 142 Q88 138 90 125 Q88 115 80 105Z" fill="#00FFD1" opacity="0.8"/>
+              <path d="M80 110 Q74 118 73 126 Q75 136 80 139 Q85 136 87 126 Q86 118 80 110Z" fill="#fff" opacity="0.4"/>
+              <!-- Chest armor lines -->
+              <path d="M52 110 Q66 104 76 108" stroke="#00FFD1" stroke-width="1.5" opacity="0.6"/>
+              <path d="M108 110 Q94 104 84 108" stroke="#00FFD1" stroke-width="1.5" opacity="0.6"/>
+              <path d="M50 132 Q65 127 77 130" stroke="#00B89C" stroke-width="1" opacity="0.4"/>
+              <path d="M110 132 Q95 127 83 130" stroke="#00B89C" stroke-width="1" opacity="0.4"/>
+              <!-- Shoulder plates -->
+              <path d="M36 88 Q26 88 23 102 Q22 114 30 118 Q40 122 48 114 Q51 100 44 90Z" fill="#00B89C"/>
+              <path d="M124 88 Q134 88 137 102 Q138 114 130 118 Q120 122 112 114 Q109 100 116 90Z" fill="#00B89C"/>
+              <circle cx="27" cy="101" r="4" fill="#00FFD1"/><circle cx="27" cy="101" r="2.5" fill="#fff" opacity="0.7"/>
+              <circle cx="133" cy="101" r="4" fill="#00FFD1"/><circle cx="133" cy="101" r="2.5" fill="#fff" opacity="0.7"/>
+              <!-- Arms -->
+              <path d="M38 110 Q24 122 18 138 Q14 152 18 162 Q23 170 32 170 Q42 170 46 158 Q50 144 48 126Z" fill="#080F12" stroke="#00FFD1" stroke-width="1.2" opacity="0.6"/>
+              <path d="M122 110 Q136 122 142 138 Q146 152 142 162 Q137 170 128 170 Q118 170 114 158 Q110 144 112 126Z" fill="#080F12" stroke="#00FFD1" stroke-width="1.2" opacity="0.6"/>
+              <!-- Bracers -->
+              <path d="M18 143 Q14 150 16 158 Q22 164 30 161 Q36 156 35 149 Q33 143 26 142Z" fill="#00FFD1"/>
+              <path d="M142 143 Q146 150 144 158 Q138 164 130 161 Q124 156 125 149 Q127 143 134 142Z" fill="#00FFD1"/>
+              <!-- Water staff left hand -->
+              <path d="M14 155 L4 60" stroke="#004A5A" stroke-width="5" stroke-linecap="round"/>
+              <path d="M14 155 L4 60" stroke="#00FFD1" stroke-width="2" opacity="0.8"/>
+              <!-- Staff orb top -->
+              <circle cx="4" cy="52" r="10" fill="#003040" stroke="#00FFD1" stroke-width="2"/>
+              <circle cx="4" cy="52" r="6" fill="#00FFD1" opacity="0.6" style="animation:pulse 1.5s infinite;"/>
+              <circle cx="4" cy="52" r="3" fill="#fff" opacity="0.8"/>
+              <!-- Head -->
+              <path d="M53 54 Q53 24 80 16 Q107 24 107 54 Q107 74 97 80 Q80 86 63 80 Q53 74 53 54Z" fill="#080F12" stroke="#00FFD1" stroke-width="1.8"/>
+              <!-- Hood/cowl top -->
+              <path d="M58 32 Q80 15 102 32 Q108 22 104 12 Q88 0 80 -2 Q72 0 56 12 Q52 22 58 32Z" fill="#005566"/>
+              <path d="M65 26 Q80 12 95 26 Q99 18 96 10 Q84 2 80 0 Q76 2 64 10 Q61 18 65 26Z" fill="#00FFD1" opacity="0.3"/>
+              <!-- Hood draping -->
+              <path d="M58 32 Q50 45 48 65 Q53 55 58 50 Q60 60 55 70 Q62 60 62 55" fill="none" stroke="#005566" stroke-width="2" opacity="0.7"/>
+              <path d="M102 32 Q110 45 112 65 Q107 55 102 50 Q100 60 105 70 Q98 60 98 55" fill="none" stroke="#005566" stroke-width="2" opacity="0.7"/>
+              <!-- Face - wrapped in cloth/mask -->
+              <path d="M59 48 Q62 37 80 35 Q98 37 101 48 Q102 62 97 70 Q87 78 80 79 Q73 78 63 70 Q58 62 59 48Z" fill="#0A0F15" stroke="#00FFD1" stroke-width="1.5"/>
+              <!-- Eyes - cyan slits -->
+              <ellipse cx="70" cy="50" rx="9" ry="5" fill="#001A16" stroke="#00FFD1" stroke-width="1.2"/>
+              <ellipse cx="90" cy="50" rx="9" ry="5" fill="#001A16" stroke="#00FFD1" stroke-width="1.2"/>
+              <ellipse cx="70" cy="50" rx="5" ry="3" fill="#00FFD1" style="animation:eyePulse 2.5s infinite;"/>
+              <ellipse cx="90" cy="50" rx="5" ry="3" fill="#00FFD1" style="animation:eyePulse 2.5s .5s infinite;"/>
+              <ellipse cx="70" cy="49" rx="2" ry="1.5" fill="#fff" opacity="0.9"/>
+              <ellipse cx="90" cy="49" rx="2" ry="1.5" fill="#fff" opacity="0.9"/>
+              <!-- Cloth wraps on lower face -->
+              <path d="M60 65 Q80 72 100 65" stroke="#005566" stroke-width="3" fill="none" opacity="0.8"/>
+              <path d="M62 70 Q80 76 98 70" stroke="#00FFD1" stroke-width="1" fill="none" opacity="0.4"/>
+            </svg>
+          </div>
+        </div>
+        <div class="agent-bg-glow"></div>
+        <div class="agent-info">
+          <div class="agent-name">CYPHER</div>
+          <div class="agent-role">Sentinel · Water</div>
+          <div class="agent-abilities">
+            <div class="ab-pip">🕸</div><div class="ab-pip">📡</div><div class="ab-pip">🎭</div><div class="ab-pip">👁</div>
+          </div>
+        </div>
+        <div class="agent-overlay"></div>
+      </div>
+
+      <!-- ── AGENT 3: BREACH (Earth/Stone) ── -->
+      <div class="agent-card theme-gold reveal" style="transition-delay:.15s">
+        <div class="agent-portrait">
+          <div style="position:absolute;inset:0;background:linear-gradient(160deg,#141005 0%,#0A0A05 100%);"></div>
+          <div class="portrait-bg-glow"></div>
+          <div class="card-char-svg">
+            <svg width="160" height="265" viewBox="0 0 160 265" fill="none">
+              <!-- Heavy stone cape -->
+              <path d="M42 82 Q22 148 20 222 Q38 192 48 176 Q58 206 64 226 Q80 186 80 170 Q80 186 96 226 Q102 206 112 176 Q122 192 140 222 Q138 148 118 82 Q100 96 80 93 Q60 96 42 82Z" fill="#3A3010" opacity="0.9"/>
+              <!-- Stone texture marks -->
+              <path d="M54 128 Q80 120 106 128" stroke="#FFD600" stroke-width="1" fill="none" opacity="0.35"/>
+              <path d="M50 152 Q80 142 110 152" stroke="#FFD600" stroke-width="1" fill="none" opacity="0.25"/>
+              <!-- Legs (heavily armored) -->
+              <path d="M50 168 Q42 190 40 218 Q39 232 47 240 Q56 244 64 237 Q71 230 71 216 Q73 194 70 176Z" fill="#120F05" stroke="#FFD600" stroke-width="1.5" opacity="0.7"/>
+              <path d="M110 168 Q118 190 120 218 Q121 232 113 240 Q104 244 96 237 Q89 230 89 216 Q87 194 90 176Z" fill="#120F05" stroke="#FFD600" stroke-width="1.5" opacity="0.7"/>
+              <!-- Heavy boots -->
+              <path d="M39 235 Q36 246 34 254 Q33 262 43 264 Q54 266 66 262 Q73 257 73 248 Q72 240 64 237Z" fill="#1A1405" stroke="#FFD600" stroke-width="1.5"/>
+              <path d="M121 235 Q124 246 126 254 Q127 262 117 264 Q106 266 94 262 Q87 257 87 248 Q88 240 96 237Z" fill="#1A1405" stroke="#FFD600" stroke-width="1.5"/>
+              <!-- Stone knee pads -->
+              <ellipse cx="56" cy="196" rx="12" ry="8" fill="#FFD600" opacity="0.6" stroke="#B8960C" stroke-width="1"/>
+              <ellipse cx="104" cy="196" rx="12" ry="8" fill="#FFD600" opacity="0.6" stroke="#B8960C" stroke-width="1"/>
+              <!-- Belt -->
+              <path d="M48 165 Q80 174 112 165 L115 177 Q80 186 45 177Z" fill="#FFD600"/>
+              <!-- Belt buckle -->
+              <rect x="72" y="166" width="16" height="12" rx="2" fill="#B8960C"/>
+              <rect x="75" y="168" width="10" height="8" rx="1" fill="#FFD600" opacity="0.7"/>
+              <!-- MASSIVE TORSO (big built character) -->
+              <path d="M38 84 Q30 108 28 135 Q27 158 32 168 Q46 178 80 180 Q114 178 128 168 Q133 158 132 135 Q130 108 122 84 Q102 72 80 70 Q58 72 38 84Z" fill="#120F05"/>
+              <path d="M44 90 Q80 80 116 90 Q120 118 118 148 Q115 166 108 175 Q80 182 52 175 Q45 166 42 148 Q40 118 44 90Z" fill="#1A1408" stroke="#FFD600" stroke-width="2"/>
+              <!-- Stone runes on chest -->
+              <path d="M80 108 L84 118 L80 122 L76 118 Z" fill="#FFD600" opacity="0.8"/>
+              <path d="M68 112 L72 118" stroke="#FFD600" stroke-width="1.5" opacity="0.6"/>
+              <path d="M88 112 L92 118" stroke="#FFD600" stroke-width="1.5" opacity="0.6"/>
+              <path d="M66 130 Q80 124 94 130" stroke="#FFD600" stroke-width="1.5" fill="none" opacity="0.5"/>
+              <path d="M62 148 Q80 140 98 148" stroke="#B8960C" stroke-width="1" fill="none" opacity="0.4"/>
+              <!-- Chest crack/energy -->
+              <path d="M80 95 Q84 108 80 125 Q76 108 80 95Z" fill="#FFD600" opacity="0.4"/>
+              <!-- HUGE shoulders with spikes -->
+              <path d="M28 88 Q14 88 10 106 Q9 122 20 128 Q34 134 46 122 Q50 105 40 91Z" fill="#8B7000"/>
+              <path d="M28 88 Q14 88 10 106 Q9 122 20 128 Q34 134 46 122 Q50 105 40 91Z" fill="none" stroke="#FFD600" stroke-width="1.5"/>
+              <!-- Shoulder spikes -->
+              <path d="M14 90 L8 74 L18 84Z" fill="#FFD600"/>
+              <path d="M10 104 L2 92 L12 100Z" fill="#FFD600" opacity="0.7"/>
+              <path d="M132 88 Q146 88 150 106 Q151 122 140 128 Q126 134 114 122 Q110 105 120 91Z" fill="#8B7000"/>
+              <path d="M132 88 Q146 88 150 106 Q151 122 140 128 Q126 134 114 122 Q110 105 120 91Z" fill="none" stroke="#FFD600" stroke-width="1.5"/>
+              <path d="M146 90 L152 74 L142 84Z" fill="#FFD600"/>
+              <path d="M150 104 L158 92 L148 100Z" fill="#FFD600" opacity="0.7"/>
+              <!-- Arms (massive) -->
+              <path d="M28 112 Q12 128 8 148 Q5 164 10 174 Q16 182 28 180 Q40 178 44 164 Q48 148 44 128Z" fill="#120F05" stroke="#FFD600" stroke-width="1.2" opacity="0.7"/>
+              <path d="M132 112 Q148 128 152 148 Q155 164 150 174 Q144 182 132 180 Q120 178 116 164 Q112 148 116 128Z" fill="#120F05" stroke="#FFD600" stroke-width="1.2" opacity="0.7"/>
+              <!-- Stone bracers (huge) -->
+              <path d="M8 148 Q4 158 7 168 Q15 176 26 172 Q34 166 33 156 Q30 147 20 146Z" fill="#FFD600"/>
+              <path d="M152 148 Q156 158 153 168 Q145 176 134 172 Q126 166 127 156 Q130 147 140 146Z" fill="#FFD600"/>
+              <!-- Earth hammer left hand -->
+              <path d="M4 172 L-6 215" stroke="#4A3A00" stroke-width="6" stroke-linecap="round"/>
+              <rect x="-14" y="210" width="26" height="16" rx="3" fill="#5A4A00" stroke="#FFD600" stroke-width="2"/>
+              <rect x="-14" y="210" width="26" height="16" rx="3" fill="none" stroke="#FFD600" stroke-width="2"/>
+              <!-- Rune on hammer -->
+              <path d="M-2 214 L2 222 M-6 218 L6 218" stroke="#FFD600" stroke-width="1.5" opacity="0.8"/>
+              <!-- Head -->
+              <path d="M50 50 Q50 18 80 10 Q110 18 110 50 Q110 74 98 81 Q80 88 62 81 Q50 74 50 50Z" fill="#120F05" stroke="#FFD600" stroke-width="1.8"/>
+              <!-- Stone crown -->
+              <path d="M58 28 Q80 10 102 28 L108 15 Q95 2 80 0 Q65 2 52 15Z" fill="#8B7000"/>
+              <path d="M63 25 Q80 12 97 25 L102 14 Q90 4 80 2 Q70 4 58 14Z" fill="#FFD600" opacity="0.5"/>
+              <!-- Crown spikes -->
+              <path d="M65 12 L68 0 L71 12Z" fill="#FFD600"/>
+              <path d="M77 8 L80 -4 L83 8Z" fill="#FFD600"/>
+              <path d="M89 12 L92 0 L95 12Z" fill="#FFD600"/>
+              <!-- Face mask (stone) -->
+              <path d="M58 46 Q62 33 80 31 Q98 33 102 46 Q103 62 98 71 Q88 80 80 81 Q72 80 62 71 Q57 62 58 46Z" fill="#0D0A05" stroke="#FFD600" stroke-width="1.5"/>
+              <!-- Eyes - golden -->
+              <ellipse cx="70" cy="50" rx="10" ry="6" fill="#1A1400" stroke="#FFD600" stroke-width="1.5"/>
+              <ellipse cx="90" cy="50" rx="10" ry="6" fill="#1A1400" stroke="#FFD600" stroke-width="1.5"/>
+              <ellipse cx="70" cy="50" rx="6" ry="4" fill="#FFD600" style="animation:eyePulse 2s infinite;"/>
+              <ellipse cx="90" cy="50" rx="6" ry="4" fill="#FFD600" style="animation:eyePulse 2s .5s infinite;"/>
+              <ellipse cx="70" cy="49" rx="2.5" ry="2" fill="#fff" opacity="0.8"/>
+              <ellipse cx="90" cy="49" rx="2.5" ry="2" fill="#fff" opacity="0.8"/>
+              <!-- Nose stone -->
+              <path d="M77 62 Q80 58 83 62 L83 67 Q80 70 77 67Z" fill="#FFD600" opacity="0.4"/>
+              <!-- Jaw -->
+              <path d="M62 72 Q80 80 98 72 Q96 82 80 86 Q64 82 62 72Z" fill="#8B7000" opacity="0.6"/>
+            </svg>
+          </div>
+        </div>
+        <div class="agent-bg-glow"></div>
+        <div class="agent-info">
+          <div class="agent-name">BREACH</div>
+          <div class="agent-role">Initiator · Earth</div>
+          <div class="agent-abilities">
+            <div class="ab-pip">⚡</div><div class="ab-pip">🌀</div><div class="ab-pip">💥</div><div class="ab-pip">🌋</div>
+          </div>
+        </div>
+        <div class="agent-overlay"></div>
+      </div>
+
+      <!-- ── AGENT 4: OMEN (Void/Shadow) ── -->
+      <div class="agent-card theme-purple reveal" style="transition-delay:.2s">
+        <div class="agent-portrait">
+          <div style="position:absolute;inset:0;background:linear-gradient(160deg,#0A0514 0%,#050308 100%);"></div>
+          <div class="portrait-bg-glow"></div>
+          <div class="card-char-svg">
+            <svg width="160" height="265" viewBox="0 0 160 265" fill="none">
+              <!-- Void cloak -->
+              <path d="M40 88 Q18 155 15 230 Q35 200 46 182 Q57 212 63 232 Q80 190 80 174 Q80 190 97 232 Q103 212 114 182 Q125 200 145 230 Q142 155 120 88 Q102 100 80 97 Q58 100 40 88Z" fill="#1A0A2A" opacity="0.95"/>
+              <!-- Void rifts in cape -->
+              <path d="M58 135 Q80 128 102 135" stroke="#B44FFF" stroke-width="1" fill="none" opacity="0.5"/>
+              <path d="M54 160 Q80 150 106 160" stroke="#7722BB" stroke-width="1" fill="none" opacity="0.35"/>
+              <path d="M65 120 Q75 112 80 115 Q85 112 95 120 Q90 130 80 132 Q70 130 65 120Z" fill="#B44FFF" opacity="0.2"/>
+              <!-- Legs -->
+              <path d="M52 170 Q44 192 42 220 Q41 234 48 240 Q56 244 64 238 Q70 231 70 218 Q72 196 70 178Z" fill="#0A0514" stroke="#B44FFF" stroke-width="1.5" opacity="0.7"/>
+              <path d="M108 170 Q116 192 118 220 Q119 234 112 240 Q104 244 96 238 Q90 231 90 218 Q88 196 90 178Z" fill="#0A0514" stroke="#B44FFF" stroke-width="1.5" opacity="0.7"/>
+              <!-- Void boots -->
+              <path d="M41 234 Q38 245 36 253 Q35 261 44 264 Q55 266 66 262 Q73 257 73 248 Q72 240 64 238Z" fill="#0F0520" stroke="#B44FFF" stroke-width="1.5"/>
+              <path d="M119 234 Q122 245 124 253 Q125 261 116 264 Q105 266 94 262 Q87 257 87 248 Q88 240 96 238Z" fill="#0F0520" stroke="#B44FFF" stroke-width="1.5"/>
+              <!-- Belt -->
+              <path d="M50 167 Q80 175 110 167 L113 178 Q80 186 47 178Z" fill="#6600AA"/>
+              <circle cx="80" cy="172" r="6" fill="#B44FFF" opacity="0.8"/>
+              <circle cx="80" cy="172" r="3" fill="#fff" opacity="0.6"/>
+              <!-- Torso -->
+              <path d="M46 90 Q40 112 38 138 Q37 158 40 170 Q52 178 80 180 Q108 178 120 170 Q123 158 122 138 Q120 112 114 90 Q97 80 80 78 Q63 80 46 90Z" fill="#0A0514"/>
+              <path d="M50 94 Q80 84 110 94 Q114 118 112 144 Q110 164 104 172 Q80 178 56 172 Q50 164 48 144 Q46 118 50 94Z" fill="#0F0820" stroke="#B44FFF" stroke-width="2"/>
+              <!-- Chest void eye -->
+              <circle cx="80" cy="125" r="16" fill="#1A0A2A" stroke="#B44FFF" stroke-width="1.5"/>
+              <circle cx="80" cy="125" r="10" fill="#0A0514" stroke="#7722BB" stroke-width="1"/>
+              <ellipse cx="80" cy="125" rx="6" ry="7" fill="#B44FFF" opacity="0.8" style="animation:eyePulse 1.5s infinite;"/>
+              <ellipse cx="80" cy="124" rx="3" ry="3.5" fill="#fff" opacity="0.7"/>
+              <!-- Void cracks from chest eye -->
+              <path d="M80 111 L77 100 M80 139 L83 150 M64 125 L55 122 M96 125 L105 122" stroke="#B44FFF" stroke-width="1" opacity="0.4"/>
+              <!-- Shoulders -->
+              <path d="M36 94 Q26 94 22 108 Q21 122 30 126 Q42 130 48 118 Q52 102 42 96Z" fill="#4A1A7A"/>
+              <path d="M36 94 Q26 94 22 108 Q21 122 30 126 Q42 130 48 118 Q52 102 42 96Z" fill="none" stroke="#B44FFF" stroke-width="1.5"/>
+              <!-- Void orbs on shoulders -->
+              <circle cx="26" cy="107" r="5" fill="#B44FFF" style="animation:pulse 1.2s infinite;"/>
+              <circle cx="26" cy="107" r="3" fill="#fff" opacity="0.6"/>
+              <path d="M124 94 Q134 94 138 108 Q139 122 130 126 Q118 130 112 118 Q108 102 118 96Z" fill="#4A1A7A"/>
+              <path d="M124 94 Q134 94 138 108 Q139 122 130 126 Q118 130 112 118 Q108 102 118 96Z" fill="none" stroke="#B44FFF" stroke-width="1.5"/>
+              <circle cx="134" cy="107" r="5" fill="#B44FFF" style="animation:pulse 1.4s infinite;"/>
+              <circle cx="134" cy="107" r="3" fill="#fff" opacity="0.6"/>
+              <!-- Arms -->
+              <path d="M38 118 Q24 130 18 148 Q14 164 18 174 Q24 182 34 180 Q46 178 50 164 Q54 148 50 130Z" fill="#0A0514" stroke="#B44FFF" stroke-width="1.2" opacity="0.6"/>
+              <path d="M122 118 Q136 130 142 148 Q146 164 142 174 Q136 182 126 180 Q114 178 110 164 Q106 148 110 130Z" fill="#0A0514" stroke="#B44FFF" stroke-width="1.2" opacity="0.6"/>
+              <!-- Void energy hands -->
+              <path d="M18 162 Q13 172 16 182 Q22 188 32 184 Q38 178 36 170 Q34 162 26 162Z" fill="#2A0A4A" stroke="#B44FFF" stroke-width="1.5"/>
+              <circle cx="24" cy="174" r="6" fill="#B44FFF" opacity="0.5" style="animation:pulse 1s infinite;"/>
+              <path d="M142 162 Q147 172 144 182 Q138 188 128 184 Q122 178 124 170 Q126 162 134 162Z" fill="#2A0A4A" stroke="#B44FFF" stroke-width="1.5"/>
+              <circle cx="136" cy="174" r="6" fill="#B44FFF" opacity="0.5" style="animation:pulse 1.2s infinite;"/>
+              <!-- Void tendrils from hands -->
+              <path d="M16 178 Q10 195 8 215 Q12 205 18 200 Q14 210 16 220" stroke="#B44FFF" stroke-width="1.5" fill="none" opacity="0.5"/>
+              <path d="M144 178 Q150 195 152 215 Q148 205 142 200 Q146 210 144 220" stroke="#B44FFF" stroke-width="1.5" fill="none" opacity="0.5"/>
+              <!-- HEAD - void entity -->
+              <path d="M52 52 Q52 18 80 10 Q108 18 108 52 Q108 76 96 82 Q80 89 64 82 Q52 76 52 52Z" fill="#0A0514" stroke="#B44FFF" stroke-width="1.8"/>
+              <!-- Hood of shadows -->
+              <path d="M57 28 Q80 10 103 28 Q112 18 108 6 Q90 -4 80 -6 Q70 -4 52 6 Q48 18 57 28Z" fill="#1A0A2A"/>
+              <path d="M61 24 Q80 8 99 24 Q106 16 103 8 Q88 -2 80 -4 Q72 -2 57 8 Q54 16 61 24Z" fill="#2A0A4A" opacity="0.7"/>
+              <!-- Void particles from hood top -->
+              <circle cx="75" cy="-2" r="2" fill="#B44FFF" opacity="0.8" style="animation:floatY 2s infinite;"/>
+              <circle cx="80" cy="-8" r="3" fill="#B44FFF" opacity="0.6" style="animation:floatY 2s .5s infinite;"/>
+              <circle cx="85" cy="-3" r="2" fill="#7722BB" opacity="0.8" style="animation:floatY 2s 1s infinite;"/>
+              <!-- Face - mostly void darkness with two purple eyes -->
+              <path d="M60 46 Q63 34 80 32 Q97 34 100 46 Q101 62 96 70 Q87 80 80 81 Q73 80 64 70 Q59 62 60 46Z" fill="#050210" stroke="#B44FFF" stroke-width="1.5"/>
+              <!-- VOID EYES (large, glowing) -->
+              <ellipse cx="70" cy="50" rx="12" ry="8" fill="#0A0520" stroke="#B44FFF" stroke-width="1.8"/>
+              <ellipse cx="90" cy="50" rx="12" ry="8" fill="#0A0520" stroke="#B44FFF" stroke-width="1.8"/>
+              <ellipse cx="70" cy="50" rx="8" ry="5" fill="#B44FFF" opacity="0.7" style="animation:eyePulse 1.8s infinite;"/>
+              <ellipse cx="90" cy="50" rx="8" ry="5" fill="#B44FFF" opacity="0.7" style="animation:eyePulse 1.8s .4s infinite;"/>
+              <ellipse cx="70" cy="49" rx="4" ry="3" fill="#fff" opacity="0.6"/>
+              <ellipse cx="90" cy="49" rx="4" ry="3" fill="#fff" opacity="0.6"/>
+              <!-- Void aura around head -->
+              <circle cx="80" cy="50" r="42" fill="none" stroke="#B44FFF" stroke-width="1" opacity="0.15" style="animation:ringExpand 3s infinite;"/>
+              <!-- No mouth — void -->
+            </svg>
+          </div>
+        </div>
+        <div class="agent-bg-glow"></div>
+        <div class="agent-info">
+          <div class="agent-name">OMEN</div>
+          <div class="agent-role">Controller · Void</div>
+          <div class="agent-abilities">
+            <div class="ab-pip">🌑</div><div class="ab-pip">👻</div><div class="ab-pip">🌒</div><div class="ab-pip">🕳</div>
+          </div>
+        </div>
+        <div class="agent-overlay"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ MAP SECTION ═══════════════ -->
+<section class="s map-section" id="maps">
+  <div class="container">
+    <div class="map-grid">
+      <div class="map-visual reveal-left">
+        <div class="map-grid-inner"></div>
+        <svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 500 420" fill="none">
+          <path class="map-path" d="M100 100 L250 80 L400 140 L380 280 L250 320 L120 280 Z" stroke="rgba(255,45,45,0.2)" stroke-width="1.5" fill="none" stroke-dasharray="8 5"/>
+          <path class="map-path" d="M180 200 L250 180 L320 200 L310 270 L250 290 L190 270 Z" stroke="rgba(0,255,209,0.15)" stroke-width="1" fill="none" stroke-dasharray="5 4" style="animation-direction:reverse;"/>
+          <line x1="100" y1="100" x2="250" y2="210" stroke="rgba(255,45,45,0.1)" stroke-width="1"/>
+          <line x1="400" y1="140" x2="250" y2="210" stroke="rgba(0,255,209,0.1)" stroke-width="1"/>
+          <line x1="250" y1="320" x2="250" y2="210" stroke="rgba(255,214,0,0.1)" stroke-width="1"/>
+        </svg>
+        <div class="map-zone mz-a">A SITE</div>
+        <div class="map-zone mz-b">B SITE</div>
+        <div class="map-zone mz-mid">MID</div>
+        <div class="map-ping mp1"></div>
+        <div class="map-ping mp2"></div>
+        <div class="map-ping mp3"></div>
+        <div class="map-corner mc-tl"></div>
+        <div class="map-corner mc-tr"></div>
+        <div class="map-corner mc-bl"></div>
+        <div class="map-corner mc-br"></div>
+        <div class="map-hud">
+          <div class="hud-timer" id="timer">01:32</div>
+          <div class="hud-status">● LIVE</div>
+        </div>
+        <div style="position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,255,209,.4),transparent);animation:scanBar 3s linear infinite;pointer-events:none;"></div>
+      </div>
+
+      <div class="map-info reveal-right">
+        <div class="s-tag">Battleground</div>
+        <h2 class="s-title">FIGHT ON<br><span class="accent-c">EVERY</span><br>TERRAIN</h2>
+        <div class="map-feature">
+          <div class="mf-icon">🗺</div>
+          <div><div class="mf-name">12 Unique Maps</div><div class="mf-desc">From neon-soaked cities to ancient ruins — every arena demands a different strategy.</div></div>
+        </div>
+        <div class="map-feature">
+          <div class="mf-icon">⚔️</div>
+          <div><div class="mf-name">Tactical Objectives</div><div class="mf-desc">Plant, defuse, capture — coordinate with your team across dynamic multi-zone battlefields.</div></div>
+        </div>
+        <div class="map-feature">
+          <div class="mf-icon">🌀</div>
+          <div><div class="mf-name">Elemental Hazards</div><div class="mf-desc">Each map hosts elemental zones that boost or counter agent abilities mid-battle.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ RANKS ═══════════════ -->
+<section class="s ranks-section" id="ranks">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:.5rem;">
+      <div class="s-tag" style="justify-content:center;">Competitive</div>
+      <h2 class="s-title" style="text-align:center;">CLIMB THE <span class="accent">RANKS</span></h2>
+      <p class="s-body" style="margin:0 auto;text-align:center;max-width:520px;">Prove your worth across 6 tiers. Each rank unlocks exclusive cosmetics, lore, and global standing.</p>
+    </div>
+    <div class="ranks-grid">
+      <div class="rank-card r1 reveal" style="transition-delay:.05s"><div class="rank-icon">🪨</div><div class="rank-name">Stone</div><div class="rank-pts">0 – 1,200 pts</div></div>
+      <div class="rank-card r2 reveal" style="transition-delay:.1s"><div class="rank-icon">⚔️</div><div class="rank-name">Bronze</div><div class="rank-pts">1,200 – 2,800</div></div>
+      <div class="rank-card r3 reveal" style="transition-delay:.15s"><div class="rank-icon">🛡</div><div class="rank-name">Silver</div><div class="rank-pts">2,800 – 5,000</div></div>
+      <div class="rank-card r4 reveal" style="transition-delay:.2s"><div class="rank-icon">🔱</div><div class="rank-name">Gold</div><div class="rank-pts">5,000 – 9,000</div></div>
+      <div class="rank-card r5 reveal" style="transition-delay:.25s"><div class="rank-icon">💎</div><div class="rank-name">Diamond</div><div class="rank-pts">9,000 – 15,000</div></div>
+      <div class="rank-card r6 reveal" style="transition-delay:.3s"><div class="rank-icon">👑</div><div class="rank-name">Vortex</div><div class="rank-pts">15,000+ · Top 500</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SEASON ═══════════════ -->
+<section class="season-section s" id="season">
+  <div class="container">
+    <div class="season-grid">
+      <div class="reveal-left">
+        <div class="season-badge">⚡ Season 4 — Elemental Collapse</div>
+        <h2 class="s-title">THE <span class="accent">RECKONING</span><br>IS HERE</h2>
+        <p class="s-body">Six weeks. 40 levels. New agent, new map, new weapons. The elements are fracturing — only the strongest will survive the collapse.</p>
+        <div class="season-countdown">
+          <div class="cd-block"><span class="cd-num" id="days">14</span><span class="cd-label">Days</span></div>
+          <span class="cd-sep">:</span>
+          <div class="cd-block"><span class="cd-num" id="hours">08</span><span class="cd-label">Hours</span></div>
+          <span class="cd-sep">:</span>
+          <div class="cd-block"><span class="cd-num" id="mins">42</span><span class="cd-label">Mins</span></div>
+        </div>
+        <div class="reward-items" style="margin-top:2rem;">
+          <div class="reward-item"><span class="ri-icon">⚔️</span><div><div class="ri-name">Void Blade Skin</div></div><span class="ri-val">Lv. 10</span></div>
+          <div class="reward-item"><span class="ri-icon">👤</span><div><div class="ri-name">New Agent: KIRAN</div></div><span class="ri-val">Lv. 25</span></div>
+          <div class="reward-item"><span class="ri-icon">👑</span><div><div class="ri-name">Season 4 Crown Title</div></div><span class="ri-val">Lv. 40</span></div>
+        </div>
+      </div>
+      <div class="trophy-wrap reveal-right">
+        <div class="t-ring"></div>
+        <div class="t-ring"></div>
+        <div class="t-ring"></div>
+        <div class="trophy">
+          <div class="t-top"></div>
+          <div style="position:relative;">
+            <div class="t-cup"></div>
+            <div class="t-handles"><div class="t-handle"></div><div class="t-handle"></div></div>
+          </div>
+          <div class="t-stem"></div>
+          <div class="t-base"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="s-tag" style="justify-content:center;margin-bottom:1.2rem;">Free to Play · Available Now</div>
+  <h2 class="cta-title">
+    <span style="color:var(--w);">ARE YOU</span><br>
+    <span style="-webkit-text-stroke:2px var(--r);color:transparent;filter:drop-shadow(0 0 20px rgba(255,45,45,.3));">READY</span><br>
+    <span style="color:var(--c);">AGENT?</span>
+  </h2>
+  <div class="cta-btns">
+    <button class="btn-primary" style="font-size:.8rem;padding:1.1rem 3rem;">▶ Download Now</button>
+    <button class="btn-ghost" style="font-size:.8rem;padding:1.1rem 3rem;">View All Agents</button>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">VOR<span>T</span>EX</div>
+    <ul class="footer-links">
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+      <li><a href="#">Press</a></li>
+      <li><a href="#">Support</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 Vortex Studios. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cursor=document.getElementById('cursor');
+const ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cursor.style.left=mx+'px';cursor.style.top=my+'px';
+});
+function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);}
+animRing();
+document.querySelectorAll('button,a,.agent-card,.rank-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.transform='translate(-50%,-50%) scale(2)';ring.style.width='60px';ring.style.height='60px';});
+  el.addEventListener('mouseleave',()=>{cursor.style.transform='translate(-50%,-50%) scale(1)';ring.style.width='36px';ring.style.height='36px';});
+});
+
+// PROGRESS BAR
+const pb=document.getElementById('progress-bar');
+window.addEventListener('scroll',()=>{
+  const pct=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+  pb.style.width=pct+'%';
+});
+
+// HERO 3D TILT
+const heroRight=document.getElementById('heroRight');
+const charMain=document.getElementById('charMain');
+heroRight.addEventListener('mousemove',e=>{
+  const r=heroRight.getBoundingClientRect();
+  const x=((e.clientX-r.left)/r.width-.5)*28;
+  const y=((e.clientY-r.top)/r.height-.5)*18;
+  charMain.style.transform=`rotateY(${x}deg) rotateX(${-y}deg) translateY(var(--float-y,0px))`;
+  charMain.style.transition='transform .08s ease';
+});
+heroRight.addEventListener('mouseleave',()=>{
+  charMain.style.transform='rotateY(0deg) rotateX(0deg)';
+  charMain.style.transition='transform .5s ease';
+});
+
+// AGENT DOT SWITCHER
+const charLabels=['RAZE — FIRE DUELIST','CYPHER — WATER SENTINEL','BREACH — EARTH WARRIOR','OMEN — VOID CONTROLLER'];
+const charColors=['rgba(255,45,45,0.5)','rgba(0,255,209,0.45)','rgba(255,214,0,0.45)','rgba(180,79,255,0.45)'];
+document.querySelectorAll('.agent-dot').forEach((dot,i)=>{
+  dot.addEventListener('click',()=>{
+    document.querySelectorAll('.agent-dot').forEach(d=>d.classList.remove('active'));
+    dot.classList.add('active');
+    const lbl=document.getElementById('charLabel');
+    if(lbl){lbl.textContent=charLabels[i];lbl.style.color=['#FF2D2D','#00FFD1','#FFD600','#B44FFF'][i];}
+    // pulse the energy rings on change
+    document.querySelectorAll('.energy-ring').forEach(r=>{r.style.borderColor=charColors[i];});
+  });
+});
+
+// PARTICLES
+function spawnParticle(){
+  const p=document.createElement('div');
+  p.className='particle';
+  const size=Math.random()*4+2;
+  const colors=['#FF2D2D','#00FFD1','#FFD600','rgba(255,45,45,.4)'];
+  p.style.cssText=`width:${size}px;height:${size}px;background:${colors[Math.floor(Math.random()*colors.length)]};left:${20+Math.random()*60}%;bottom:${25+Math.random()*20}%;--px:${(Math.random()-.5)*100}px;animation-duration:${1.8+Math.random()*2}s;animation-delay:${Math.random()*.5}s;opacity:.8;position:absolute;border-radius:50%;`;
+  document.querySelector('.hero').appendChild(p);
+  setTimeout(()=>p.remove(),(3+Math.random()*2)*1000);
+}
+setInterval(spawnParticle,250);
+
+// SCROLL REVEAL
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+},{threshold:.1});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>obs.observe(el));
+
+// COUNT UP
+const counts=document.querySelectorAll('[data-count]');
+const countObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting&&!e.target.dataset.done){
+      e.target.dataset.done='1';
+      const target=+e.target.dataset.count;
+      const suffix=e.target.dataset.suffix||'';
+      let cur=0;const dur=1200;const step=dur/60;const inc=target/60;
+      const t=setInterval(()=>{cur=Math.min(cur+inc,target);e.target.textContent=Math.floor(cur)+(cur>=target?suffix:'');if(cur>=target)clearInterval(t);},step);
+    }
+  });
+},{threshold:.5});
+counts.forEach(c=>countObs.observe(c));
+
+// LIVE TIMER
+function updateTimer(){
+  const d=document.getElementById('days');const h=document.getElementById('hours');const m=document.getElementById('mins');
+  if(!d)return;
+  let sec=Date.now()/1000;
+  d.textContent=String(14-Math.floor((sec%(86400*14))/86400)).padStart(2,'0');
+  h.textContent=String(Math.floor((sec%86400)/3600)).padStart(2,'0');
+  m.textContent=String(Math.floor((sec%3600)/60)).padStart(2,'0');
+}
+setInterval(updateTimer,10000);
+
+// MAP TIMER
+let tSec=92;
+setInterval(()=>{
+  if(tSec>0)tSec--;else tSec=120;
+  const mm=String(Math.floor(tSec/60)).padStart(2,'0');
+  const ss=String(tSec%60).padStart(2,'0');
+  const el=document.getElementById('timer');
+  if(el)el.textContent=mm+':'+ss;
+},1000);
+
+// PARALLAX
+window.addEventListener('scroll',()=>{
+  const sy=window.scrollY;
+  const grid=document.querySelector('.hero-grid');if(grid)grid.style.transform=`translateY(${sy*.3}px)`;
+  const o1=document.querySelector('.orb1');if(o1)o1.style.transform=`translateY(${sy*.15}px)`;
+  const o2=document.querySelector('.orb2');if(o2)o2.style.transform=`translateY(${-sy*.1}px)`;
+});
+
+// HERO character floating CSS variable animation
+let floatT=0;
+function animHeroFloat(){
+  floatT+=0.02;
+  const y=Math.sin(floatT)*18;
+  charMain.style.setProperty('--float-y',y+'px');
+  requestAnimationFrame(animHeroFloat);
+}
+animHeroFloat();
+</script>
+</body>
+</html>
